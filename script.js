@@ -5,6 +5,7 @@ class Game{
         this.canvas = canvas;
         this.screen = canvas.getContext("2d");
         this.player = new Player(this);
+        this.coin = new Coin(this);
     }
     draw(){
         this.screen.clearRect(0,0, this.canvas.width, this.canvas.height);
@@ -12,6 +13,7 @@ class Game{
         this.screen.lineWidth = 10;
         this.screen.strokeRect(150,150,200,200);
         this.player.draw();
+        this.coin.draw();
     }
 
     tick(){
@@ -55,6 +57,23 @@ class Player{
         }
 
 
+    }
+}
+
+class Coin {
+    constructor (game) {
+        this.game = game;
+        this.screen = game.screen;
+        // this.location={x:230,y:230, size:40}
+    }
+    draw(){
+        this.screen.fillStyle="#FFDD00";
+        var size = 10;
+        var leftX=(200);
+        var leftY=(200);
+        // var leftX=(Math.floor(Math.random()*300));
+        // var leftY=(Math.floor(Math.random()*300));
+        this.screen.fillRect(leftX,leftY,size,size);
     }
 }
 
