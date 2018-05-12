@@ -1,11 +1,12 @@
 console.log("hi");
-
+var count=0;
 class Game{
     constructor(canvas){
         this.canvas = canvas;
         this.screen = canvas.getContext("2d");
         this.player = new Player(this);
         this.coin = new Coin(this);
+        this.badCoin = new BadCoin(this);
 //collision
         this.bodies = [];
         this.bodies = this.bodies.concat(this.player);
@@ -18,11 +19,13 @@ class Game{
         this.screen.strokeStyle="#FF0000";
         this.screen.lineWidth = 10;
         this.screen.strokeRect(150,150,200,200);
-        for (var i = 0; i < this.bodies.length; i++) {
-            (this.bodies[i]).draw();
-        }
-        // this.player.draw();
-        // this.coin.draw();
+        // for (var i = 0; i < this.bodies.length; i++) {
+        //     (this.bodies[i]).draw();
+        // }
+        this.player.draw();
+        this.coin.draw();
+        this.badCoin.draw();
+        
     }
 
     tick(){
@@ -33,15 +36,47 @@ class Game{
     }
     update(){
         this.player.update();
+        // this.coin.update();
         //new
+        if (colliding(this.coin.location, this.player.location)){
+            console.log(this.coin.location);
+            console.log(this.player.location);
+            // var counter=document.getElementById("counter");
+            // var count="0";
+            // counter.innerText=count;
+           
+            counter=document.getElementById("counter");
+            count= count+1;
+            counter.innerText=count;
+            console.log(count)
+            this.coin.update();
+            
+        }
+
+        if (colliding(this.badCoin.location, this.player.location)){
+            console.log(this.badCoin.location);
+            console.log(this.player.location);
+            // var counter=document.getElementById("counter");
+            // var count="0";
+            // counter.innerText=count;
+           
+            counter=document.getElementById("counter");
+            count= count-1;
+            counter.innerText=count;
+            console.log(count)
+            this.badCoin.update();
+            
+        }
+
         // var notCollidingWithAnything = function(b1) {
-        //     return self.bodies.filter(function(b2) {return colliding(b1, b2);}).length === 0;
-        // };
-        //     this.bodies = this.bodies.filter(notCollidingWithAnything);
-        //     for (var i = 0; i < this.bodies.length; i++) {
-        //     this.bodies[i].update();
-        // }
+        //      return this.bodies.filter(function(b2) {return colliding(b1, b2);}).length === 0;
+
+        //  };
+        //      this.bodies = this.bodies.filter(notCollidingWithAnything);
+        //      for (var i = 0; i < this.bodies.length; i++) {
+        //      this.bodies[i].update();
     }
+    
     addBody(body){
         this.bodies.push(body);
     }
@@ -85,31 +120,91 @@ class Coin {
         this.game = game;
         this.screen = game.screen;
         // this.location={x:230,y:230, size:40}
-        this.leftX=(Math.floor(Math.random()*155))+155;
-        this.leftY=(Math.floor(Math.random()*155))+155;
+        this.location={x: (Math.floor(Math.random()*155)+155),y:((Math.floor(Math.random()*155))+155)}
+        // this.leftX=(Math.floor(Math.random()*155))+155;
+        // this.leftY=(Math.floor(Math.random()*155))+155;
     }
     draw(){
         this.screen.fillStyle="#FFDD00";
-        var size = 10;
+        var size = 20;
 
         // var leftX=(200);
         // var leftY=(200);
         // var leftX=(Math.floor(Math.random()*300));
         // var leftY=(Math.floor(Math.random()*300));
-        this.screen.fillRect(this.leftX,this.leftY,size,size);
+        //this.screen.fillRect(this.leftX,this.leftY,size,size);
+        this.screen.fillRect(this.location.x,this.location.y,size,size);
+
+    }
+    update(){
+        this.location.x=(Math.floor(Math.random()*155))+155;
+        this.location.y=(Math.floor(Math.random()*155))+155;
     }
 }
 
-class colliding{
-    constructor(b1, b2) {
-        return !( b1 === b2 ||
-        b1.center.x + b1.size.x / 2 < b2.center.x - b2.size.x / 2 ||
-        b1.center.y + b1.size.y / 2 < b2.center.y - b2.size.y / 2 ||
-        b1.center.x - b1.size.x / 2 > b2.center.x + b2.size.x / 2 ||
-        b1.center.y - b1.size.y / 2 > b2.center.y + b2.size.y / 2
-        );
+
+class BadCoin {
+    constructor (game) {
+        this.game = game;
+        this.screen = game.screen;
+        // this.location={x:230,y:230, size:40}
+        this.location={x: (Math.floor(Math.random()*155)+155),y:((Math.floor(Math.random()*155))+155)}
+        // this.leftX=(Math.floor(Math.random()*155))+155;
+        // this.leftY=(Math.floor(Math.random()*155))+155;
+    }
+    draw(){
+        this.screen.fillStyle="#FF0000";
+        var size = 20;
+
+        // var leftX=(200);
+        // var leftY=(200);
+        // var leftX=(Math.floor(Math.random()*300));
+        // var leftY=(Math.floor(Math.random()*300));
+        //this.screen.fillRect(this.leftX,this.leftY,size,size);
+        this.screen.fillRect(this.location.x,this.location.y,size,size);
+
+    }
+    update(){
+        this.location.x=(Math.floor(Math.random()*155))+155;
+        this.location.y=(Math.floor(Math.random()*155))+155;
     }
 }
+
+function colliding(b1, b2) {
+    // constructor(b1, b2) {
+
+        var b1centerX= b1.x+(10)
+        var b1centerY= b1.y+(10)
+    
+        var b2centerX= b2.x+(b2.size/2)
+        var b2centerY= b2.y+(b2.size/2)
+    
+        return !( b1 === b2 ||
+            b1centerX + 10 < b2centerX - b2.size / 2 ||
+            b1centerY + 10 < b2centerY - b2.size / 2 ||
+            b1centerX - 10 > b2centerX + b2.size / 2 ||
+            b1centerY - 10 > b2centerY + b2.size / 2
+        );
+    
+        // return !( b1 === b2 ||
+        //     b1.leftX + b1.size / 2 < b2.leftX - b2.size / 2 ||
+        //     b1.leftY + b1.size / 2 < b2.leftY - b2.size / 2 ||
+        //     b1.leftX - b1.size / 2 > b2.leftX + b2.size / 2 ||
+        //     b1.leftY - b1.size / 2 > b2.leftY + b2.size / 2
+        // );
+    }
+// }
+
+// function addOne() {
+//     count=0
+//     if (colliding(b1, b2)){
+//         counter=getElementById("counter");
+//         count+=count;
+//         counter.innerText=count;
+//         console.log(count)
+
+//     }
+// }
 
 class Keyboarder {
     constructor () {
