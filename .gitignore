@@ -1,0 +1,5 @@
+dist
+.cache
+node_modules
+invaders_code.js
+script2.js

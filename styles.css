@@ -1,0 +1,36 @@
+body {
+    background-color: red;
+}
+
+.title {
+    font-size: 28px;
+    width: 500px;
+    text-align: center;
+    margin: 0;
+}
+
+.instructions {
+    width: 500px;
+    font-size: 10px;
+    text-align: center;
+    margin: 0;
+}
+
+.score {
+    font-family: monospace;
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+    font-size: 40px;
+    color: whitesmoke;
+    border: 2px solid black;
+    width: 500px;
+    height: 3rem;
+    text-align: center;
+    background-color: black;
+}
+
+.canvas {
+    border: 2px solid black;
+    margin-left: auto;
+    background-color: black;
+}
